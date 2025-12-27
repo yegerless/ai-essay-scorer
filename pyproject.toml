@@ -12,7 +12,13 @@ dependencies = [
     "dvc (>=3.65.0,<4.0.0)",
     "kagglehub[pandas-datasets] (>=0.3.13,<0.4.0)",
     "fire (>=0.7.1,<0.8.0)",
-    "torch (>=2.9.1,<3.0.0)"
+    "torch (>=2.9.1,<3.0.0)",
+    "lightning (>=2.6.0,<3.0.0)",
+    "torchmetrics (>=1.8.2,<2.0.0)",
+    "sentencepiece (>=0.2.1,<0.3.0)",
+    "datasets (>=4.4.2,<5.0.0)",
+    "scikit-learn (>=1.8.0,<2.0.0)",
+    "transformers (>=4.57.3,<5.0.0)"
 ]
 
 [dependency-groups]
@@ -70,6 +76,7 @@ select = [
 ]
 ignore = [
     "PLR0913",
+    "RET504"
     ]
 
 [tool.ruff.lint.pydocstyle]
