@@ -9,6 +9,9 @@ __pycache__/
 # DVC remote imitation
 remote-dvc/
 
+# Pytorch Lightning logs and checkpoints
+lightning_logs/
+
 # C extensions
 *.so
 
