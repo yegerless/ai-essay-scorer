@@ -38,6 +38,7 @@ def download_dataset(kaggle_dataset: str, dataset_file: str, path_to_save: str) 
     df = kagglehub.dataset_load(
         handle=kaggle_dataset, adapter=KaggleDatasetAdapter.PANDAS, path=dataset_file
     )
+    df = df[["full_text", "score"]].rename(columns={"full_text": "text", "score": "labels"})
     df.to_csv(path_to_save, index=False)
     print(f"Dataset downloaded and save in {path_to_save}")
     print("Dataset rows example:")

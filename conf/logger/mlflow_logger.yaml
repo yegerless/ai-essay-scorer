@@ -1,0 +1,6 @@
+_target_: lightning.pytorch.loggers.MLFlowLogger
+
+experiment_name: ai-essay-scorer
+tracking_uri: http://127.0.0.1:8080
+tags:
+  run_type: train
