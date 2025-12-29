@@ -13,6 +13,7 @@ class LightningDataModule(pl.LightningDataModule):
     def __init__(
         self,
         data_file: str,
+        dvc_repo: str,
         train_batch_size: int,
         val_and_test_batch_size: int,
         max_len: int,
@@ -24,6 +25,7 @@ class LightningDataModule(pl.LightningDataModule):
     ):
         super().__init__()
         self.data_file = data_file
+        self.dvc_repo = dvc_repo
         self.train_batch_size = train_batch_size
         self.val_and_test_batch_size = val_and_test_batch_size
         self.max_len = max_len
@@ -48,7 +50,7 @@ class LightningDataModule(pl.LightningDataModule):
             return
 
         # Read data
-        data = dvc.api.read(self.data_file, mode="r")
+        data = dvc.api.read(repo=self.dvc_repo, path=self.data_file, mode="r")
         df = pd.read_csv(StringIO(data))
 
         # Split data on train and test sets

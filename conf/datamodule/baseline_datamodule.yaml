@@ -1,6 +1,7 @@
 _target_: data.LightningDataModule
 
-data_file: ../data/raw_data.csv
+data_file: data/raw_data.csv
+dvc_repo: remote-dvc
 train_batch_size: 16
 val_and_test_batch_size: 32
 max_len: 512

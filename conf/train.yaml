@@ -4,6 +4,8 @@ defaults:
   - logger: mlflow_logger
   - _self_
 
+remote_dvc_repo: remote-dvc
+
 trainer:
   deterministic: True
   max_epochs: 10
