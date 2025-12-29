@@ -1,54 +1,37 @@
 import hydra
 import pytorch_lightning as pl
-from module import LightningTextClassifier
+from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
-from data import LightningDataModule
 
-
-@hydra.main(version_base=None, config_path="conf", config_name="train")
+@hydra.main(version_base=None, config_path="../conf", config_name="train")
 def main(cfg: DictConfig):
-    print(OmegaConf.to_yaml(cfg))
-
+    # fix random seed
     pl.seed_everything(42, workers=True)
 
-    datamodule = LightningDataModule(
-        data_file="../data/raw_data.csv",
-        train_batch_size=16,
-        val_and_test_batch_size=32,
-        max_len=512,
-        val_size=0.15,
-        test_size=0.15,
-        num_workers=0,
-        seed=42,
-        tokenizer_name="bert-base-uncased",
-    )
+    # init logger
+    logger = instantiate(cfg.logger)
 
-    model = LightningTextClassifier(
-        hf_model="bert-base-uncased", lr=3e-4, weight_decay=0.1, freeze_n_layers=1, num_classes=6
-    )
+    # init pl datamodule
+    datamodule = instantiate(cfg.datamodule)
 
+    # init pl module with model
+    model = instantiate(cfg.pl_module)
+
+    # init pl callbacks
+    early_stopping_params = OmegaConf.to_container(cfg["early_stopping_callback"])
+    model_checkpoint_params = OmegaConf.to_container(cfg["model_checkpoint_callback"])
     callbacks = [
-        pl.callbacks.EarlyStopping(monitor="val_f1_score", patience=3, verbose=True, mode="max"),
-        pl.callbacks.ModelCheckpoint(
-            monitor="val_f1_score", save_top_k=1, mode="max", verbose=True
-        ),
+        pl.callbacks.EarlyStopping(**early_stopping_params),
+        pl.callbacks.ModelCheckpoint(**model_checkpoint_params),
     ]
 
-    trainer = pl.Trainer(
-        deterministic=True,
-        max_epochs=10,
-        accelerator="auto",
-        enable_progress_bar=True,
-        log_every_n_steps=25,
-        callbacks=callbacks,
-    )
+    # init pl trainer
+    trainer_params = OmegaConf.to_container(cfg["trainer"])
+    trainer = pl.Trainer(callbacks=callbacks, logger=logger, **trainer_params)
 
-    trainer.fit(
-        model,
-        datamodule=datamodule,
-    )
-
+    # fit & test model
+    trainer.fit(model, datamodule=datamodule)
     trainer.test(model, datamodule=datamodule)
 
 

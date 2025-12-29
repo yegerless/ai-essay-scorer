@@ -12,6 +12,9 @@ remote-dvc/
 # Pytorch Lightning logs and checkpoints
 lightning_logs/
 
+# hydra logs
+outputs/
+
 # C extensions
 *.so
 
