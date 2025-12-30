@@ -11,6 +11,7 @@ remote-dvc/
 
 # Pytorch Lightning logs and checkpoints
 lightning_logs/
+models_checkpoints/
 
 # hydra logs
 outputs/

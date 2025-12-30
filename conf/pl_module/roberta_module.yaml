@@ -2,7 +2,7 @@ _target_: module.LightningTextClassifier
 
 num_classes: 6
 hf_model: FacebookAI/roberta-large
-lr: 1e-3
+lr: 1e-5
 weight_decay: 0.1
 
 layers_to_unfreeze: null # fit only classifier head
