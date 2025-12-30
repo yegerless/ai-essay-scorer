@@ -7,7 +7,7 @@ val_and_test_batch_size: 32
 max_len: 512
 val_size: 0.15
 test_size: 0.15
-num_workers: 0
+num_workers: 10
 seed: 42
 
 tokenizer_name: ${pl_module.hf_model}
