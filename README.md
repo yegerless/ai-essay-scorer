@@ -2,6 +2,8 @@
 
 Simple NLP project with student essay texts scoring.
 
+For all questions: tg @yegerless
+
 ## Project Statement
 
 ### Problem Statement
@@ -98,12 +100,16 @@ poetry run pre-commit run -a
 The DVC is used for data versioning, but project doesn't have any data remote
 storage, only kaggle dataset page. You can download dataset from kaggle with
 command below, after that you can init local imitation of remote DVC storage.
+Run next command and change <path-to-local-directory> with path on your local
+machine where you want to make "remote" DVC repo.
 
 ```bash
 # download dataset from kaggle
 poetry run python ./ai_essay_scorer/commands.py download_data --kaggle_dataset yegerless/student-essay-with-scores-dataset --dataset_file raw_data.csv --path_to_save ./data/raw_data.csv
 
 # init local imitation of remote DVC storage
+mkdir ./remote-dvc
+poetry run dvc add ./data/raw_data.csv
 poetry run dvc push
 ```
 
